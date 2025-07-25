@@ -26,7 +26,127 @@ class Bank{
 
         void display(){
             cout<<"Name: "<<name<<endl;
-            cout<<"Account Num: "<<AccNum<<end;
+            cout<<"Account Num: "<<AccNum<<endl;
+            cout<<"Balance $: "<<bal<<endl;
+        }
+        
+        void search(int accno){
+        int idx = findAcc(Accounts, accno);
+            if(idx!=-1){
+                cout<<"Account Found!"<<accno<<endl;
+                Accounts[idx].display();
+            } else{
+                cout<<"Account Not Found!"<<endl;
+                cout<<"please try Again "<<endl;
+
+            }
+
+
+        int fetchAccNum(){
+            return AccNum;
+        }
+
+        int findAcc(Bank Accounts[], int accnum){
+            for(int i=0; i<n; i++){
+                if(Accounts[i].fetchAccNum()==accnum){
+                    return i; //  found indx
+                }
+            }
+            return -1;//not found 
+        }
+        
+        void deposite(Bank Accounts[], int accno,int money){
+    
+        int idx = findAcc(Accounts,accno);
+            if(idx==-1){
+                cout<<"No Found";
+            } else {
+            Accounts[idx].bal+=money;
+            cout<<" Money Deposited Successfully! "<<endl;
+        }
+
+
+
+        void withdraw(Accounts, int money){
+        int idx = findAcc(Accounts,accno);
+            if(idx==-1) {
+                cout<<"No Found";
+            } else {
+            if(Accounts[idx].bal >= money){
+                bal-=money;
+                cout<<" Money withdrad succesfully! "<<endl;
+            } else{
+                cout<<" Balance is Low "<<endl;
+                cout<<"You can withdraw only:" <<bal<<endl;
+            }
+        }
+
+
+    };
+int main(){
+    Bank Accounts[10];
+    int accno;
+    int money;
+    cout << "Enter number of users(in betn 10): ";
+    cin >> n;
+
+    for(int i=0; i<n; i++){
+        cout<<"Enter Details for student: "<<i+1<<endl;
+        Accounts[i].accept();
+    }
+
+    int choice;
+    cout<<"\n\t++ Bank Management system ++\n\n"<<endl;
+    cout<<"\t1.Show all Accounts:"<<endl;
+    cout<<"\t2.Search Account(by account number):"<<endl;
+    cout<<"\t3.Deposite: "<<endl;
+    cout<<"\t4.withdraw: "<<endl;
+    cout<<"5.Exit! "<<endl;
+
+    cout<<"Choice: ";
+    cin>>choice;
+
+    switch(choice){
+        case 1:  
+        for(int i=0; i<n; i++){
+            cout<<"Details of student: "<<i+1<<endl;
+            Accounts[i].display();
+        }
+            break;
+
+        case 2:
+            cout<<"Enter Account number to search:";
+            cin>>accno;
+            void search(accno);
+            break;
+
+        case 3:
+
+            cout<<"Enter Account Number: ";
+            cin>>accno;
+            cout<<"Enter the Money To deposite(in doller): ";
+            cin>>money;
+            deposite(Bank Accounts[],accno,money);
+            break;
+        case 4:
+            cout<<"Enter Account Number: ";
+            cin>>accno;
+            cout<<"Enter the Money To Withdraw(in doller): ";
+            withdraw(Bank Accounts[],accno,money);
+            cin>>money;
+            break;
+            
+
+        case 5:
+            cout<<"Thanku for using our system"<<endl;
+            cout<<"Have a Good day! "<<endl;
+            break;                
+        }
+
+
+
+    return 0;
+}end;
             cout<<"Balance $: "<<bal<<endl;
         }
 
