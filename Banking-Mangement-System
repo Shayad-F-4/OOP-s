@@ -1,260 +1,161 @@
  🚧 Bank Management System (C++) 🚧
 
 > **Status: Under Construction 🚀  
-> This project is currently being developed. Features may be incomplete or unstable.
-
+> This project is currently being developed. Features may be incomplete or unstable
 
 
 #include<iostream>
 #include<vector>
 using namespace std;
+
 int n;
-class Bank{
-    private:
-        string name;
-        int AccNum,bal;
-    public:
-        void accept(){
-            cout<<"Enter Name: ";
-            getline(cin, name);
-            cout<<"Enter Account number: ";
-            cin>>AccNum;
-            cout<<"Enter Balance: ";
-            cin>>bal;
-        }
+
+class Bank {
+private:
+    string name;
+    int AccNum, bal;
+
+public:
+    void accept() {
+        cout << "Enter Name: ";
+        cin>>name;
+        cout << "Enter Account Number: ";
+        cin >> AccNum;
+        cout << "Enter Balance: ";
+        cin >> bal;
+    }
 
 
-        void display(){
-            cout<<"Name: "<<name<<endl;
-            cout<<"Account Num: "<<AccNum<<endl;
-            cout<<"Balance $: "<<bal<<endl;
+
+
+    void display() {
+        cout <<"Name: " <<name<<endl;
+        cout <<"Account Num: "<<AccNum<<endl;
+        cout <<"Balance $: "<<bal<<endl;
+    }
+
+
+
+    int fetchAccNum(){ //fetching Account num for ensure Account is Created or Not //Authintication
+        return AccNum;
+    }
+
+
+
+     int findAcc(Bank Accounts[], int accnum) {//we create an object Accounts with calling Class
+        for (int i=0; i<n; i++) {
+            if (Accounts[i].fetchAccNum()==accnum) {
+                return i;//found index
+            }
         }
-        
-        void search(int accno){
-        int idx = findAcc(Accounts, accno);
-            if(idx!=-1){
-                cout<<"Account Found!"<<accno<<endl;
-                Accounts[idx].display();
+        return -1; //not found
+    }
+
+
+
+
+     void search(Bank Accounts[], int accno) {
+        int idx=findAcc(Accounts, accno);
+        if (idx!=-1) {
+            cout<<"Account Found! "<<accno<<endl;
+            Accounts[idx].display();
+        } else{
+            cout<<"Account Not Found "<<endl;
+            cout<<"Please try again "<<endl;
+        }
+    }
+
+
+
+     void deposit(Bank Accounts[], int accno, int money) {
+        int idx=findAcc(Accounts , accno);
+        if (idx==-1) {
+            cout<<"Account Not Found."<<endl;
+        } else {
+            Accounts[idx].bal += money;
+            cout<<"Money Deposited Successfully! "<<endl;
+        }
+    }
+
+
+
+
+     void withdraw(Bank Accounts[], int accno, int money) {
+        int idx=findAcc(Accounts , accno);
+        if (idx==-1) {
+            cout<<"Account Not Found."<<endl;
+        } else{
+            if(Accounts[idx].bal>=money) {
+                Accounts[idx].bal-=money;
+                cout<<"Money Withdraw Successfully!"<<endl;
             } else{
-                cout<<"Account Not Found!"<<endl;
-                cout<<"please try Again "<<endl;
-
-            }
-
-
-        int fetchAccNum(){
-            return AccNum;
-        }
-
-        int findAcc(Bank Accounts[], int accnum){
-            for(int i=0; i<n; i++){
-                if(Accounts[i].fetchAccNum()==accnum){
-                    return i; //  found indx
-                }
-            }
-            return -1;//not found 
-        }
-        
-        void deposite(Bank Accounts[], int accno,int money){
-    
-        int idx = findAcc(Accounts,accno);
-            if(idx==-1){
-                cout<<"No Found";
-            } else {
-            Accounts[idx].bal+=money;
-            cout<<" Money Deposited Successfully! "<<endl;
-        }
-
-
-
-        void withdraw(Accounts, int money){
-        int idx = findAcc(Accounts,accno);
-            if(idx==-1) {
-                cout<<"No Found";
-            } else {
-            if(Accounts[idx].bal >= money){
-                bal-=money;
-                cout<<" Money withdrad succesfully! "<<endl;
-            } else{
-                cout<<" Balance is Low "<<endl;
-                cout<<"You can withdraw only:" <<bal<<endl;
+                cout<<"Balance is low "<<endl;
+                cout<<"You can withdraw only $: "<<Accounts[idx].bal<<endl;
             }
         }
+    }
+};
 
 
-    };
-int main(){
+int main() {
     Bank Accounts[10];
     int accno;
     int money;
-    cout << "Enter number of users(in betn 10): ";
-    cin >> n;
+    cout<<"Enter number of users (in betn 10): ";
+    cin>>n;
 
+   for(int i=0; i<n; i++){
+    cout<<"Enter Details User:"<<i+1<<endl;
+    Accounts[i].accept();
+}
+
+int choice;
+cout<<"\n\t++ Bank Management system ++\n\n"<<endl;
+cout<<"\t1.Show all Accounts:"<<endl;
+cout<<"\t2.Search Account(by account number):"<<endl;
+cout<<"\t3.Deposite: "<<endl;
+cout<<"\t4.withdraw: "<<endl;
+cout<<"5.Exit! "<<endl;
+
+cout<<"Enter Choice: ";
+cin>>choice;
+
+switch(choice){
+    case 1:  
     for(int i=0; i<n; i++){
-        cout<<"Enter Details for student: "<<i+1<<endl;
-        Accounts[i].accept();
+        cout<<"Details of student: "<<i+1<<endl;
+        Accounts[i].display();
     }
+        break;
 
-    int choice;
-    cout<<"\n\t++ Bank Management system ++\n\n"<<endl;
-    cout<<"\t1.Show all Accounts:"<<endl;
-    cout<<"\t2.Search Account(by account number):"<<endl;
-    cout<<"\t3.Deposite: "<<endl;
-    cout<<"\t4.withdraw: "<<endl;
-    cout<<"5.Exit! "<<endl;
+    case 2:
+        cout<<"Enter Account number to search:";
+        cin>>accno;
+        Bank::search(Accounts, accno);
+        break;
 
-    cout<<"Choice: ";
-    cin>>choice;
+    case 3:
+        cout<<"Enter Account Number: ";
+        cin>>accno;
+        cout<<"Enter the Money To deposite(in doller): ";
+        cin>>money;
+        Bank::deposite(Accounts,accno,money);
+        break;
 
-    switch(choice){
-        case 1:  
-        for(int i=0; i<n; i++){
-            cout<<"Details of student: "<<i+1<<endl;
-            Accounts[i].display();
-        }
-            break;
-
-        case 2:
-            cout<<"Enter Account number to search:";
-            cin>>accno;
-            void search(accno);
-            break;
-
-        case 3:
-
-            cout<<"Enter Account Number: ";
-            cin>>accno;
-            cout<<"Enter the Money To deposite(in doller): ";
-            cin>>money;
-            deposite(Bank Accounts[],accno,money);
-            break;
-        case 4:
-            cout<<"Enter Account Number: ";
-            cin>>accno;
-            cout<<"Enter the Money To Withdraw(in doller): ";
-            withdraw(Bank Accounts[],accno,money);
-            cin>>money;
-            break;
-            
-
-        case 5:
-            cout<<"Thanku for using our system"<<endl;
-            cout<<"Have a Good day! "<<endl;
-            break;                
-        }
+    case 4:
+        cout<<"Enter Account Number: ";
+        cin>>accno;
+        cout<<"Enter the Money To Withdraw(in doller): ";
+        Bank::withdraw(Accounts,accno,money);
+        cin>>money;
+        break;
 
 
-
-    return 0;
-}end;
-            cout<<"Balance $: "<<bal<<endl;
-        }
-
-
-        int fetchAccNum(){
-            return AccNum;
-        }
-
-        int findAcc(Bank Accounts[], int accnum){
-            for(int i=0; i<n; i++){
-                if(Accounts[i].fetchAccNum()==accnum){
-                    return i; //  found indx
-                }
-            }
-            return -1;//not found 
-        }
-        
-        void deposite(int money){
-            bal+=money;
-            cout<<"Money Deposited Successfully!"<<endl;
-        }
-
-
-
-        void withdraw(int money){
-            if(bal >= money){
-                bal-=money;
-                cout<<"Money withdrad succesfully"<<endl;
-            } else{
-                cout<<"Balance is Low"<<endl;
-                cout<<"You can withdraw only:" <<bal<<endl;
-            }
-        }
-
-
-    };
-int main(){
-    Bank Accounts[10];
-    
-    cout << "Enter number of users(in betn 10): ";
-    cin >> n;
-
-    for(int i=0; i<n; i++){
-        cout<<"Enter Details for student: "<<i+1<<endl;
-        Accounts[i].accept();
-    }
-
-    int choice;
-    cout<<"\n\t++ Bank Management system ++\n\n"<<endl;
-    cout<<"\t2.Show all Accounts:"<<endl;
-    cout<<"\t3.Search Account(by account number):"<<endl;
-    cout<<"\t4.Deposite: "<<endl;
-    cout<<"\t5.withdraw: "<<endl;
-    cout<<"0.Exit! "<<endl;
-
-    cout<<"Choice: ";
-    cin>>choice;
-
-    switch(choice){
-        case 1:  
-        for(int i=0; i<n; i++){
-            cout<<"Details of student: "<<i+1<<endl;
-            Accounts[i].display();
-        }
-            break;
-
-        case 2:
-            cout<<"Enter Account number to search:";
-            cin>>AccNum;
-            if(Accounts[i].findAccound(Accounts, n, AccNum)){
-                cout<<"Account Found!"<<AccNum<<endl;
-                Accounts[i].display();
-            } else{
-                cout<<"Account Not Found!"<<endl;
-            }
-            break;
-
-        case 3:
-            int money;
-            cout<<"Enter Account Number: ";
-            cin>>AccNum;
-            cout<<"Enter the Money To deposite(in doller): ";
-            cin>>money;
-            int idx = findAcc(Accounts,AccNum);
-            if(idx==-1){
-                cout<<"No Found";
-            } else {
-                Accounts[i].deposite(money);
-            }
-        case 4:
-            int money;
-            cout<<"Enter Account Number: ";
-            cin>>AccNum;
-            cout<<"Enter the Money To Withdraw(in doller): ";
-            cin>>money;
-
-            int idx = findAcc(Accounts,AccNum);
-            if(idx==-1){
-                cout<<"No Found";
-            } else {
-                Accounts[i].withdraw(money);
-            }
-
-        case 0:
-            break;                
-        }
-
-
+   
+    case 5:
+        cout<<"Thank you for using our system"<<endl;
+        cout<<"Have a Good day"<<endl;
+        break;
 
     return 0;
 }
